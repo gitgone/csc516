@@ -1,0 +1,194 @@
+/*******************************************************************************
+*
+*   FILE
+*
+*       main.nxc
+*
+*   DESCRIPTION
+*
+*       The Bot API (BAPI).
+*
+*       Assumes the following connections:
+*
+*       Bot Left Wheel/Track    - B
+*       Bot Right Wheel/Track   - C
+*
+*******************************************************************************/
+
+// command-line: nbc -S=usb -d main.nxc
+
+/* BAPI Test */
+#define BAPI_TEST_MOVE      0
+#define BAPI_TEST_TURN      1
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Error
+*
+*   DESCRIPTION
+*
+*      Error handler for API.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Error()
+{
+    while(1); // TODO: Add something useful here like a beep or log errors...
+}
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Move
+*
+*   DESCRIPTION
+*
+*      Move the specified distance.
+*
+*   INPUT
+*
+*      distance - The distance (in cm).  Positive values move forward, negative
+*                 values move backward.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Move (int distance)
+{
+    /* Check for zero movement */
+    if (distance != 0)
+    {
+        /* Determine movement direction */
+        if (distance > 0)
+        {
+            /* Start motors going forward at 100%. */
+            int previous = abs(MotorTachoCount(OUT_B));
+            OnRev(OUT_BC, 100);
+            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= distance){
+
+            }
+        }
+        else
+        {
+            /* Start motors going backward at 100%. */
+            int previous = abs(MotorTachoCount(OUT_B));
+            OnFwd(OUT_BC, 45);
+            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= -distance){
+            
+            }
+        }
+        /* Turn off motors. */
+        Off(OUT_BC);
+        Wait(200);
+    }
+
+}
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Turn
+*
+*   DESCRIPTION
+*
+*      Turn the specified amount.
+*
+*   INPUT
+*
+*      rotation - The rotation (in degrees).  Positive values move right,
+*                 negative values move left.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Turn (int speed, int rotation, int time)
+{
+    /* Check for zero rotation */
+    if (rotation != 0)
+    {
+        /* Determine rotation direction */
+        if (rotation < 0)
+        {
+            /* Start motors to turn right. */
+            OnFwd(OUT_B, speed);
+            OnRev(OUT_C, speed);
+        }
+        else
+        {
+            /* Start motor to turn left. */
+            OnFwd(OUT_C, speed);
+            OnRev(OUT_B, speed);
+        }
+
+        /* Run motors long enough to turn specified rotation */
+        Wait(time);
+
+        /* Turn off motors. */
+        Off(OUT_BC);
+    }
+
+}
+
+void BAPI_Kick(){
+     RotateMotor(OUT_A, 100, 40);
+     Wait(100);
+     Off(OUT_A);
+     RotateMotor(OUT_A, 50, -40);
+}
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      main
+*
+*   DESCRIPTION
+*
+*      Main task/function for NXT program.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+task main()
+{   // Positive values turn counter-clockwise
+    // Move magnitude 100 is roughly 1 inch on the soccer field
+    int total_distance = 0;
+    SetSensorLight(S2);
+    BAPI_Move(2800);
+    BAPI_Turn(50, 1, 2000);
+    while(1){
+    NumOut(50, 10, Sensor(S2));
+    until((Sensor(S2) >= 38)) {
+            OnRev(OUT_BC, 50);
+      }
+      Off(OUT_BC);
+      OnRev(OUT_BC, 100);
+      Wait(500);
+      BAPI_Kick();
+      Off(OUT_BC);
+    }
+    Wait(5000);
+    
+}
+
