@@ -76,7 +76,8 @@ void BAPI_Move (int distance)
             /* Start motors going forward at 100%. */
             int previous = abs(MotorTachoCount(OUT_B));
             OnRev(OUT_BC, 100);
-            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= distance){
+            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= distance)
+            {
 
             }
         }
@@ -85,10 +86,12 @@ void BAPI_Move (int distance)
             /* Start motors going backward at 100%. */
             int previous = abs(MotorTachoCount(OUT_B));
             OnFwd(OUT_BC, 45);
-            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= -distance){
+            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= -distance)
+            {
             
             }
         }
+
         /* Turn off motors. */
         Off(OUT_BC);
         Wait(200);
@@ -144,11 +147,31 @@ void BAPI_Turn (int speed, int rotation, int time)
 
 }
 
-void BAPI_Kick(){
-     RotateMotor(OUT_A, 100, 40);
-     Wait(100);
-     Off(OUT_A);
-     RotateMotor(OUT_A, 50, -40);
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Kick
+*
+*   DESCRIPTION
+*
+*      Perform a kick.
+*
+*   INPUT
+*
+*      None.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Kick()
+{
+    RotateMotor(OUT_A, 100, 40);
+    Wait(100);
+    Off(OUT_A);
+    RotateMotor(OUT_A, 50, -40);
 }
 
 /*******************************************************************************
@@ -171,22 +194,25 @@ void BAPI_Kick(){
 *
 *******************************************************************************/
 task main()
-{   // Positive values turn counter-clockwise
+{
+    // Positive values turn counter-clockwise
     // Move magnitude 100 is roughly 1 inch on the soccer field
     int total_distance = 0;
     SetSensorLight(S2);
     BAPI_Move(2800);
     BAPI_Turn(50, 1, 2000);
-    while(1){
-    NumOut(50, 10, Sensor(S2));
-    until((Sensor(S2) >= 38)) {
+    while(1)
+    {
+        NumOut(50, 10, Sensor(S2));
+        until((Sensor(S2) >= 38))
+        {
             OnRev(OUT_BC, 50);
-      }
-      Off(OUT_BC);
-      OnRev(OUT_BC, 100);
-      Wait(500);
-      BAPI_Kick();
-      Off(OUT_BC);
+        }
+        Off(OUT_BC);
+        OnRev(OUT_BC, 100);
+        Wait(500);
+        BAPI_Kick();
+        Off(OUT_BC);
     }
     Wait(5000);
     
