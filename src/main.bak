@@ -1,0 +1,610 @@
+/*******************************************************************************
+*
+*   FILE
+*
+*       main.nxc
+*
+*   DESCRIPTION
+*
+*       The Bot API (BAPI).  The BAPI is divided into multiple layers with lower
+*       layers providing more basic behaviors that are built upon by the upper
+*       layers.
+*
+*       Assumes the following connections to NTX Brick:
+*
+*       A - Bot Kick flipper
+*       B - Bot Left Wheel/Track
+*       C - Bot Right Wheel/Track
+*
+*       1 - NONE
+*       2 - Front Light Sensor
+*       3 - NONE
+*       4 - NONE
+*
+*******************************************************************************/
+
+// command-line: nbc -S=usb -d main.nxc
+
+/* Map */
+#define BAPI_INIT_MAP_DIM_X             100
+#define BAPI_INIT_MAP_DIM_Y             100
+
+/* Robot */
+#define BAPI_INIT_START_X               0
+#define BAPI_INIT_START_Y               0
+
+/* Goal */
+#define BAPI_INIT_GOAL_X                100
+#define BAPI_INIT_GOAL_Y                100
+
+/* Movement */
+#define BAPI_MOVE_SPEED                 50 // 100
+#define BAPI_MOVE_TACH_PER_INCH         100
+
+/* Turning */
+#define BAPI_TURN_SPEED                 50
+#define BAPI_TURN_RIGHT_DURATION        2150
+#define BAPI_TURN_LEFT_DURATION         2000
+
+/* Light Sensor */
+#define BAPI_SENSE_LIGHT_SENSOR         S2
+#define BAPI_SENSE_LIGHT_FIELD          45 // 38
+#define BAPI_SENSE_LIGHT_BALL           00 // TODO: get ball light value?
+
+/* Context - The current context of the system. */
+struct GLOBAL_CONTEXT
+{
+    /* Sensors */
+    bool        sensor_detect;
+    int         map_dim[2];
+    int         current_pos[2];
+    int         goal_pos[2];
+};
+
+/* Global Context instance */
+GLOBAL_CONTEXT  gContext;
+
+/* Utility Functions - These are general-purpose and miscellaneous functions not
+   directly related to robot behavior. */
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Error
+*
+*   DESCRIPTION
+*
+*      Error handler for API.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Error ()
+{
+    // TODO: Add something useful here like a beep or log errors...
+
+    return;
+}
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Status
+*
+*   DESCRIPTION
+*
+*      Status display for API.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Status (int   val)
+{
+    /* Display the value on the screen. */
+    NumOut(50, 10, val);
+
+    return;
+}
+
+/* Layer 0 Functions - These are the most primitive functions and provide the
+   basis of all higher behavior. */
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Move
+*
+*   DESCRIPTION
+*
+*      Move the specified distance.
+*
+*   INPUT
+*
+*      distance - The distance (in inches).  Positive values move forward, negative
+*                 values move backward.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Move (int distance)
+{
+    int previous;
+
+    /* Check for zero movement */
+    if (distance != 0)
+    {
+        /* Initialize previous value to current rotation of motor B. */
+        previous = abs(MotorTachoCount(OUT_B));
+
+        /* Determine movement direction */
+        if (distance > 0)
+        {
+            /* Start motors going forward at 100%. */
+            OnRev(OUT_BC, BAPI_MOVE_SPEED);
+
+            /* Don't stop motors until desired rotations reached. */
+            while ((gContext.sensor_detect == false) &&
+                   (abs(abs(MotorTachoCount(OUT_B)) - previous) < (distance * BAPI_MOVE_TACH_PER_INCH)))
+            {
+
+            }
+
+#if 0
+            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= (distance * BAPI_MOVE_TACH_PER_INCH))
+            {
+
+            }
+#endif
+        }
+        else
+        {
+            /* Start motors going backward at 100%. */
+            OnFwd(OUT_BC, 45);
+            
+            /* Don't stop motors until desired rotations reached. */
+            until(abs(abs(MotorTachoCount(OUT_B)) - previous) >= (-distance * BAPI_MOVE_TACH_PER_INCH))
+            {
+
+            }
+        }
+
+        /* Turn off motors. */
+        Off(OUT_BC);
+    }
+
+    return;
+}
+
+// New Turn code...
+#if 1
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Turn
+*
+*   DESCRIPTION
+*
+*      Turn the specified amount.
+*
+*   INPUT
+*
+*      rotation - The rotation (in degrees).  Positive values move right,
+*                 negative values move left.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Turn (int rotation)
+{
+    int     duration;
+
+    /* Check for zero rotation */
+    if (rotation != 0)
+    {
+        /* Determine rotation direction */
+        if (rotation < 0)
+        {
+            /* Start motors to turn right. */
+            OnFwd(OUT_B, BAPI_TURN_SPEED);
+            OnRev(OUT_C, BAPI_TURN_SPEED);
+            duration = BAPI_TURN_RIGHT_DURATION;
+
+        }
+        else
+        {
+            /* Start motor to turn left. */
+            OnFwd(OUT_C, BAPI_TURN_SPEED);
+            OnRev(OUT_B, BAPI_TURN_SPEED);
+            duration = BAPI_TURN_LEFT_DURATION;
+
+        }
+
+        /* Run motors long enough to turn specified rotation */
+        Wait(duration);
+
+        /* Turn off motors. */
+        Off(OUT_BC);
+    }
+
+    return;
+}
+
+#endif
+
+// Prototype Turn code...
+#if 0
+void BAPI_Turn (int speed, int rotation, int time)
+{
+    /* Check for zero rotation */
+    if (rotation != 0)
+    {
+        /* Determine rotation direction */
+        if (rotation < 0)
+        {
+            /* Start motors to turn right. */
+            OnFwd(OUT_B, speed);
+            OnRev(OUT_C, speed);
+        }
+        else
+        {
+            /* Start motor to turn left. */
+            OnFwd(OUT_C, speed);
+            OnRev(OUT_B, speed);
+        }
+
+        /* Run motors long enough to turn specified rotation */
+        Wait(time);
+
+        /* Turn off motors. */
+        Off(OUT_BC);
+    }
+
+}
+#endif
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Kick
+*
+*   DESCRIPTION
+*
+*      Perform a kick.
+*
+*   INPUT
+*
+*      None.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Kick()
+{
+    RotateMotor(OUT_A, 100, 40);
+    Wait(100);
+    Off(OUT_A);
+    RotateMotor(OUT_A, 50, -40);
+}
+
+/* Layer 1 Functions - These are the mid-level functions which provide more
+   complex behavior. */
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Move_To
+*
+*   DESCRIPTION
+*
+*      Move to a location in the map.
+*
+*   INPUT
+*
+*      x - The x coordinate of the destination.
+*
+*      y - The y coordinate of the destination.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Move_To (int x, int y)
+{
+    // TODO: Add code...
+}
+
+/* Layer 2 Functions - These are the highest-level functions which are abstract
+   behaviors. */
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Search_For_Ball
+*
+*   DESCRIPTION
+*
+*      Search for the target object.  The function returns when the object is
+*      found.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Search_For_Ball ()
+{
+    /* Move out from the wall */
+    BAPI_Move(28);
+
+    /* Turn to face the goal */
+    BAPI_Turn(90);
+
+    /* Search for the ball... */
+    while(1)
+    {
+        BAPI_Status(Sensor(BAPI_SENSE_LIGHT_SENSOR));
+        until(Sensor(BAPI_SENSE_LIGHT_SENSOR) >= BAPI_SENSE_LIGHT_FIELD)
+        {
+            BAPI_Move(1);
+        }
+        Off(OUT_BC);
+    }
+
+}
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Acquire_Ball
+*
+*   DESCRIPTION
+*
+*      Take possession of the ball (in preparation for a kick).
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Acquire_Ball ()
+{
+    // TODO: Add code...
+}
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Kick_Ball_At_Goal
+*
+*   DESCRIPTION
+*
+*      Kick the ball at the goal.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Kick_Ball_At_Goal ()
+{
+    BAPI_Move(2);
+    Wait(500);
+    BAPI_Kick();
+}
+
+/*******************************************************************************
+*
+*   TASK
+*
+*      BAPI_Task_Sensor
+*
+*   DESCRIPTION
+*
+*      The sensor task which monitors sensors.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+task BAPI_Task_Sensor ()
+{
+    int     sensor_val;
+
+    while (1)
+    {
+        sensor_val = Sensor(BAPI_SENSE_LIGHT_SENSOR);
+
+        if (sensor_val >= BAPI_SENSE_LIGHT_FIELD)
+        {
+            gContext.sensor_detect = true;
+        }
+        else
+        {
+            gContext.sensor_detect = false;
+        }
+
+        BAPI_Status(sensor_val);
+    }
+
+}
+
+/*******************************************************************************
+*
+*   FUNCTION
+*
+*      BAPI_Init
+*
+*   DESCRIPTION
+*
+*      Initialize the API.
+*
+*   INPUT
+*
+*      map_dim_x - The x-axis dimensions of the map.
+*
+*      map_dim_y - The y-axis dimensions of the map.
+*
+*      start_x - The x coordinate of the robot's starting position.
+*
+*      start_y - The y coordinate of the robot's starting position.
+*
+*      goal_x - The x coordinate of the (center of the) goal.
+*
+*      goal_y - The y coordinate of the (center of teh) goal.
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+void BAPI_Init (int map_dim_x, int map_dim_y, int start_x, int start_y, int goal_x, int goal_y)
+{
+    /* Initialize the global context */
+    gContext.sensor_detect = false;
+    gContext.map_dim[0] = map_dim_x;
+    gContext.map_dim[1] = map_dim_y;
+    gContext.current_pos[0] = start_x;
+    gContext.current_pos[1] = start_y;
+    gContext.goal_pos[0] = goal_x;
+    gContext.goal_pos[1] = goal_y;
+
+    /* Initialize sensors */
+    SetSensorLight(BAPI_SENSE_LIGHT_SENSOR);
+
+    /* Start tasks */
+    start BAPI_Task_Sensor;
+
+    return;
+}
+
+/* Main */
+
+/*******************************************************************************
+*
+*   TASK
+*
+*      main
+*
+*   DESCRIPTION
+*
+*      Main task/function for NXT program.
+*
+*   INPUT
+*
+*      None
+*
+*   OUTPUT
+*
+*      None
+*
+*******************************************************************************/
+task main ()
+{
+// API development code...
+#if 1
+
+    BAPI_Init(BAPI_INIT_MAP_DIM_X,
+              BAPI_INIT_MAP_DIM_Y,
+              BAPI_INIT_START_X,
+              BAPI_INIT_START_Y,
+              BAPI_INIT_GOAL_X,
+              BAPI_INIT_GOAL_Y);
+
+    BAPI_Move(10);
+
+#endif
+
+// Prototype code...
+#if 0
+
+    // Positive values turn counter-clockwise
+    // Move magnitude 100 is roughly 1 inch on the soccer field
+    int total_distance = 0;
+    SetSensorLight(S2);
+    BAPI_Move(28);
+    BAPI_Turn(50, 1, 2000);
+    while(1)
+    {
+        NumOut(50, 10, Sensor(S2));
+        until((Sensor(S2) >= 38))
+        {
+            OnRev(OUT_BC, 50);
+        }
+        Off(OUT_BC);
+        OnRev(OUT_BC, 100);
+        Wait(500);
+        BAPI_Kick();
+        Off(OUT_BC);
+    }
+    Wait(5000);
+    
+#endif
+
+// Final code structure...
+#if 0
+
+    /* Initialize BAPI system. */
+    BAPI_Init(BAPI_INIT_MAP_DIM_X,
+              BAPI_INIT_MAP_DIM_Y,
+              BAPI_INIT_START_X,
+              BAPI_INIT_START_Y,
+              BAPI_INIT_GOAL_X,
+              BAPI_INIT_GOAL_Y);
+
+    while(1)
+    {
+        BAPI_Search_For_Ball();
+        BAPI_Acquire_Ball();
+        BAPI_Kick_Ball_At_Goal();
+    }
+
+#endif
+
+}
+
+

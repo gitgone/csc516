@@ -1,0 +1,406 @@
+#SYMBOLS
+Index	Identifier	Type	Flag	Data	Size	RefCount
+0	__D0BAPI_Turn	6	1	0	4	14
+1	__D0SetSensorLight_inline_BAPI_Init	6	1	4	4	3
+2	__DU0SetSensorLight_inline_BAPI_Init	5	1	8	4	2
+3	__D0BAPI_Init	6	1	12	4	12
+4	__D0BAPI_Status	6	1	16	4	3
+5	__D0BAPI_Task_Sensor	6	1	20	4	5
+6	__signed_stack_001BAPI_Init	6	1	24	4	12
+7	__signed_stack_001BAPI_Turn	6	1	28	4	4
+8	__Wait_7qG2_ms_7qG2_000_inline_BAPI_Turn	5	1	32	4	2
+9	__Wait_7qG2_ms_7qG2_000_inline_main	5	1	36	4	2
+10	__signed_stack_001BAPI_Status	6	1	40	4	2
+11	__signed_stack_002BAPI_Status	6	1	44	4	2
+12	__signed_stack_001BAPI_Task_Sensor	6	1	48	4	2
+13	__TextOutMutex	9	0	52	4	2
+14	__ResetSensorMutex	9	0	56	4	2
+15	__OnRevMutex	9	0	60	4	4
+16	__BAPI_Turn_7qG2_duration_7qG2_000	4	1	64	2	3
+17	__BAPI_Task_Sensor_7qG2_sensor_val_7qG2_000	4	1	66	2	3
+18	__BAPI_Status_7qG2_val_7qG2_000	4	1	68	2	2
+19	__BAPI_Turn_7qG2_rotation_7qG2_000	4	1	70	2	4
+20	__BAPI_Init_7qG2_start_y_7qG2_000	4	1	72	2	2
+21	__BAPI_Init_7qG2_goal_x_7qG2_000	4	1	74	2	2
+22	__BAPI_Init_7qG2_goal_y_7qG2_000	4	1	76	2	2
+23	__BAPI_Init_7qG2_map_dim_x_7qG2_000	4	1	78	2	2
+24	__BAPI_Init_7qG2_map_dim_y_7qG2_000	4	1	80	2	2
+25	__BAPI_Init_7qG2_start_x_7qG2_000	4	1	82	2	2
+26	__SetSensorLight_7qG2_port_7qG2_000_inline_BAPI_Init	1	1	84	1	4
+27	__SetSensorLight_7qG2_bActive_7qG2_000_inline_BAPI_Init	1	1	85	1	2
+28	__SetSensorType_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init	1	1	86	1	2
+29	__BAPI_Init_return	1	1	87	1	4
+30	____ResetSensorSubroutine_return	1	1	88	1	3
+31	__PFTmp	1	1	89	1	1
+32	__constVal2	2	0	90	1	2
+33	__BAPI_Task_Sensor_Spawner_return	1	1	91	1	1
+34	____initialize_global_data_return	1	1	92	1	3
+35	__constValNeg90	2	0	93	1	1
+36	__ResetSensor_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init	1	1	94	1	2
+37	__SetSensorType_7qG2_type_7qG2_000_inline_SetSensorLight_inline_BAPI_Init	1	1	95	1	2
+38	__SetSensorMode_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init	1	1	96	1	2
+39	__SetSensorMode_7qG2_mode_7qG2_000_inline_SetSensorLight_inline_BAPI_Init	1	1	97	1	2
+40	__zfBAPI_Task_Sensor	1	1	98	1	5
+41	__BAPI_Status_return	1	1	99	1	4
+42	__constVal96	2	0	100	1	5
+43	__constVal63	2	0	101	1	5
+44	__constVal3	2	0	102	1	5
+45	__constVal1	2	0	103	1	5
+46	__constVal32	2	0	104	1	15
+47	__constVal0	2	1	105	1	16
+48	__OnRev_Tmp	2	1	106	1	4
+49	__ResetSensorTmp	1	1	107	1	2
+50	__zfBAPI_Turn	1	1	108	1	6
+51	__zfSetSensorLight_inline_BAPI_Init	1	1	109	1	2
+52	__BAPI_Turn_return	1	1	110	1	5
+53	__ResetSensorPort	1	1	111	1	3
+54	__TextOutArgs	8	0	4	16	6
+55	__TextOutArgs.Result	2	1	112	1	6
+56	__TextOutArgs.Location	8	0	2	4	6
+57	__TextOutArgs.Location.X	4	1	116	2	6
+58	__TextOutArgs.Location.Y	4	1	118	2	6
+59	__TextOutArgs.Text	7	0	120	4	6
+60	__TextOutArgs.Text.Text_type	1	0	0	1	0
+61	__TextOutArgs.Options	5	1	124	4	6
+62	gContext	8	0	4	16	15
+63	gContext.sensor_detect	1	1	128	1	15
+64	gContext.map_dim	7	0	130	4	15
+65	gContext.map_dim.map_dim_type	4	0	0	2	0
+66	gContext.current_pos	7	0	132	4	15
+67	gContext.current_pos.current_pos_type	4	0	0	2	0
+68	gContext.goal_pos	7	0	134	4	15
+69	gContext.goal_pos.goal_pos_type	4	0	0	2	0
+70	__OUT_BC	7	0	136	4	1
+71	__OUT_BC.__OUT_BC_type	1	0	0	1	0
+#SOURCES
+Clump	Line	PC	Source
+0	550	0	#line 550 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	551	0		subcall __initialize_global_data, ____initialize_global_data_return
+0	550	2	#line 550 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	551	2	#line 551 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	552	2		set __BAPI_Init_7qG2_map_dim_x_7qG2_000, 100
+0	551	5	#line 551 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	552	5	#line 552 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	553	5		set __BAPI_Init_7qG2_map_dim_y_7qG2_000, 100
+0	552	8	#line 552 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	553	8	#line 553 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	554	8		set __BAPI_Init_7qG2_start_x_7qG2_000, 0
+0	553	11	#line 553 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	554	11	#line 554 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	555	11		set __BAPI_Init_7qG2_start_y_7qG2_000, 0
+0	554	14	#line 554 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	555	14	#line 555 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	556	14		set __BAPI_Init_7qG2_goal_x_7qG2_000, 100
+0	555	17	#line 555 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	555	17	#line 555 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	556	17		set __BAPI_Init_7qG2_goal_y_7qG2_000, 100
+0	555	20	#line 555 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	558	20	#line 558 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	559	20		subcall BAPI_Init, __BAPI_Init_return
+0	558	22	#line 558 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	558	22	#line 558 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	559	22		set __BAPI_Turn_7qG2_rotation_7qG2_000, 90
+0	558	25	#line 558 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	559	25	#line 559 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	560	25		subcall BAPI_Turn, __BAPI_Turn_return
+0	559	27	#line 559 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	559	27	#line 559 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	560	27		set __Wait_7qG2_ms_7qG2_000_inline_main, 200
+0	559	30	#line 559 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	7921	30	#line 7921 "NXCDefs.h"
+0	7922	30		wait2 NA, __Wait_7qG2_ms_7qG2_000_inline_main
+0	7921	33	#line 7921 "NXCDefs.h"
+0	560	33	#line 560 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	560	33	#line 560 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	561	33		mov __BAPI_Turn_7qG2_rotation_7qG2_000, __constValNeg90
+0	560	35	#line 560 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	610	35	#line 610 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	611	35		subcall BAPI_Turn, __BAPI_Turn_return
+0	610	37	#line 610 "C:\Users\David\Documents\GitHub\src\main.nxc"
+0	611	37		exit -1, -1
+1	4885	0		setin __constVal1, __ResetSensorPort, 5
+1	4887	4		getin __ResetSensorTmp, __ResetSensorPort, 5
+1	4888	8		brtst 5, __SensorStillInvalid, __ResetSensorTmp
+1	4889	11		subret ____ResetSensorSubroutine_return
+2	117	0	#line 117 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	118	0		set __signed_stack_001BAPI_Status, 50
+2	117	3	#line 117 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	117	3	#line 117 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	118	3		set __signed_stack_002BAPI_Status, 10
+2	117	6	#line 117 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	117	6	#line 117 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	118	6		mov __D0BAPI_Status, __BAPI_Status_7qG2_val_7qG2_000
+2	119	8	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	8		acquire __TextOutMutex
+2	119	9	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	9		mov __TextOutArgs.Location.X, __signed_stack_001BAPI_Status
+2	119	11	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	11		mov __TextOutArgs.Location.Y, __signed_stack_002BAPI_Status
+2	119	13	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	13		set __TextOutArgs.Options, 0
+2	119	16	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	16		numtostr __TextOutArgs.Text, __D0BAPI_Status
+2	119	19	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	19		syscall 13, __TextOutArgs
+2	119	22	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	22		mov __D0BAPI_Status, __TextOutArgs.Result
+2	119	24	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	24		release __TextOutMutex
+2	119	25	#line 119 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	120	25	#line 120 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	121	25		subret __BAPI_Status_return
+2	120	27	#line 120 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	145	27	#line 145 "C:\Users\David\Documents\GitHub\src\main.nxc"
+2	146	27		subret __BAPI_Status_return
+3	221	0	#line 221 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	222	0		mov __signed_stack_001BAPI_Turn, __BAPI_Turn_7qG2_rotation_7qG2_000
+3	221	2	#line 221 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	222	2	#line 222 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	223	2		set __D0BAPI_Turn, 0
+3	222	5	#line 222 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	223	5		cmp 5, __zfBAPI_Turn, __signed_stack_001BAPI_Turn, __D0BAPI_Turn
+3	222	9	#line 222 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	223	9		mov __D0BAPI_Turn, __zfBAPI_Turn
+3	224	11	#line 224 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	225	11		brtst 4, __NXC_Label_538, __zfBAPI_Turn
+3	224	14	#line 224 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	225	14		mov __signed_stack_001BAPI_Turn, __BAPI_Turn_7qG2_rotation_7qG2_000
+3	224	16	#line 224 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	225	16	#line 225 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	226	16		set __D0BAPI_Turn, 0
+3	225	19	#line 225 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	226	19		cmp 0, __zfBAPI_Turn, __signed_stack_001BAPI_Turn, __D0BAPI_Turn
+3	225	23	#line 225 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	226	23		mov __D0BAPI_Turn, __zfBAPI_Turn
+3	227	25	#line 227 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	228	25		brtst 4, __NXC_Label_541, __zfBAPI_Turn
+3	227	28	#line 227 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	228	28		set __D0BAPI_Turn, 50
+3	228	31	#line 228 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	229	31	#pragma macro 7
+3	229	31		setout __constVal1, 2, __D0BAPI_Turn, 1, __constVal3, 8, __constVal0, 6, __constVal32, 7, __constVal0, 5, __constVal0, 10, __constVal96, 11, __constVal32, 12, __constVal32, 0, __constVal63
+3	4449	54	#line 4449 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	228	54	#line 228 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	228	54	#line 228 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	229	54		set __D0BAPI_Turn, 50
+3	229	57	#line 229 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	230	57	#pragma macro 10
+3	230	57		acquire __OnRevMutex
+3	230	58		neg __OnRev_Tmp, __D0BAPI_Turn
+3	230	61		setout __constVal2, 2, __OnRev_Tmp, 1, __constVal3, 8, __constVal0, 6, __constVal32, 7, __constVal0, 5, __constVal0, 10, __constVal96, 11, __constVal32, 12, __constVal32, 0, __constVal63
+3	230	84		release __OnRevMutex
+3	4456	85	#line 4456 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	229	85	#line 229 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	231	85	#line 231 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	232	85		set __BAPI_Turn_7qG2_duration_7qG2_000, 1982
+3	231	88	#line 231 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	231	88	#line 231 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	235	88	#line 235 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	236	88		jmp __NXC_Label_548
+3	235	90	#line 235 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	236	90		set __D0BAPI_Turn, 50
+3	236	93	#line 236 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	237	93	#pragma macro 7
+3	237	93		setout __constVal2, 2, __D0BAPI_Turn, 1, __constVal3, 8, __constVal0, 6, __constVal32, 7, __constVal0, 5, __constVal0, 10, __constVal96, 11, __constVal32, 12, __constVal32, 0, __constVal63
+3	4473	116	#line 4473 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	236	116	#line 236 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	236	116	#line 236 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	237	116		set __D0BAPI_Turn, 50
+3	237	119	#line 237 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	238	119	#pragma macro 10
+3	238	119		acquire __OnRevMutex
+3	238	120		neg __OnRev_Tmp, __D0BAPI_Turn
+3	238	123		setout __constVal1, 2, __OnRev_Tmp, 1, __constVal3, 8, __constVal0, 6, __constVal32, 7, __constVal0, 5, __constVal0, 10, __constVal96, 11, __constVal32, 12, __constVal32, 0, __constVal63
+3	238	146		release __OnRevMutex
+3	4480	147	#line 4480 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	237	147	#line 237 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	239	147	#line 239 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	240	147		set __BAPI_Turn_7qG2_duration_7qG2_000, 2185
+3	239	150	#line 239 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	239	150	#line 239 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	242	150	#line 242 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	242	150	#line 242 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	243	150		mov __Wait_7qG2_ms_7qG2_000_inline_BAPI_Turn, __BAPI_Turn_7qG2_duration_7qG2_000
+3	242	152	#line 242 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	7921	152	#line 7921 "NXCDefs.h"
+3	7922	152		wait2 NA, __Wait_7qG2_ms_7qG2_000_inline_BAPI_Turn
+3	7921	155	#line 7921 "NXCDefs.h"
+3	245	155	#line 245 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	246	155	#line 246 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	247	155	#pragma macro 7
+3	247	155		setout __OUT_BC, 2, __constVal0, 1, __constVal3, 8, __constVal0, 6, __constVal32, 7, __constVal0, 5, __constVal0, 10, __constVal96, 11, __constVal32, 12, __constVal32, 0, __constVal63
+3	4506	178	#line 4506 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	246	178	#line 246 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	248	178	#line 248 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	249	178	#line 249 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	250	178		subret __BAPI_Turn_return
+3	249	180	#line 249 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	303	180	#line 303 "C:\Users\David\Documents\GitHub\src\main.nxc"
+3	304	180		subret __BAPI_Turn_return
+4	458	0	#line 458 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	459	0		set __D0BAPI_Task_Sensor, 1
+4	459	3	#line 459 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	460	3		tst 5, __zfBAPI_Task_Sensor, __D0BAPI_Task_Sensor
+4	459	6	#line 459 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	460	6		brtst 4, __NXC_Label_590, __zfBAPI_Task_Sensor
+4	459	9	#line 459 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	460	9		getin __BAPI_Task_Sensor_7qG2_sensor_val_7qG2_000, __constVal1, 4
+4	459	13	#line 459 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	459	13	#line 459 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	459	13	#line 459 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	461	13	#line 461 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	462	13		mov __signed_stack_001BAPI_Task_Sensor, __BAPI_Task_Sensor_7qG2_sensor_val_7qG2_000
+4	461	15	#line 461 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	462	15	#line 462 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	463	15		set __D0BAPI_Task_Sensor, 38
+4	462	18	#line 462 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	463	18		cmp 3, __zfBAPI_Task_Sensor, __signed_stack_001BAPI_Task_Sensor, __D0BAPI_Task_Sensor
+4	462	22	#line 462 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	463	22		mov __D0BAPI_Task_Sensor, __zfBAPI_Task_Sensor
+4	463	24	#line 463 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	464	24		brtst 4, __NXC_Label_597, __zfBAPI_Task_Sensor
+4	464	27	#line 464 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	465	27		set gContext.sensor_detect, 1
+4	464	30	#line 464 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	464	30	#line 464 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	467	30	#line 467 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	468	30		jmp __NXC_Label_600
+4	468	32	#line 468 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	469	32		set gContext.sensor_detect, 0
+4	468	35	#line 468 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	468	35	#line 468 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	470	35	#line 470 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	470	35	#line 470 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	471	35		mov __BAPI_Status_7qG2_val_7qG2_000, __BAPI_Task_Sensor_7qG2_sensor_val_7qG2_000
+4	470	37	#line 470 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	471	37	#line 471 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	472	37		subcall BAPI_Status, __BAPI_Status_return
+4	471	39	#line 471 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	504	39	#line 504 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	505	39		jmp __NXC_Label_589
+4	504	41	#line 504 "C:\Users\David\Documents\GitHub\src\main.nxc"
+4	505	41		exit -1, -1
+5	508	0	#line 508 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	509	0		set gContext.sensor_detect, 0
+5	508	3	#line 508 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	508	3	#line 508 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	508	3	#line 508 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	509	3		set __signed_stack_001BAPI_Init, 0
+5	508	6	#line 508 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	509	6	#line 509 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	510	6		mov __D0BAPI_Init, __BAPI_Init_7qG2_map_dim_x_7qG2_000
+5	509	8	#line 509 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	510	8		replace gContext.map_dim, gContext.map_dim, __signed_stack_001BAPI_Init, __D0BAPI_Init
+5	509	13	#line 509 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	509	13	#line 509 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	510	13		set __signed_stack_001BAPI_Init, 1
+5	509	16	#line 509 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	510	16	#line 510 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	511	16		mov __D0BAPI_Init, __BAPI_Init_7qG2_map_dim_y_7qG2_000
+5	510	18	#line 510 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	511	18		replace gContext.map_dim, gContext.map_dim, __signed_stack_001BAPI_Init, __D0BAPI_Init
+5	510	23	#line 510 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	510	23	#line 510 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	511	23		set __signed_stack_001BAPI_Init, 0
+5	510	26	#line 510 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	511	26	#line 511 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	512	26		mov __D0BAPI_Init, __BAPI_Init_7qG2_start_x_7qG2_000
+5	511	28	#line 511 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	512	28		replace gContext.current_pos, gContext.current_pos, __signed_stack_001BAPI_Init, __D0BAPI_Init
+5	511	33	#line 511 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	511	33	#line 511 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	512	33		set __signed_stack_001BAPI_Init, 1
+5	511	36	#line 511 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	512	36	#line 512 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	513	36		mov __D0BAPI_Init, __BAPI_Init_7qG2_start_y_7qG2_000
+5	512	38	#line 512 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	513	38		replace gContext.current_pos, gContext.current_pos, __signed_stack_001BAPI_Init, __D0BAPI_Init
+5	512	43	#line 512 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	512	43	#line 512 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	513	43		set __signed_stack_001BAPI_Init, 0
+5	512	46	#line 512 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	513	46	#line 513 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	514	46		mov __D0BAPI_Init, __BAPI_Init_7qG2_goal_x_7qG2_000
+5	513	48	#line 513 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	514	48		replace gContext.goal_pos, gContext.goal_pos, __signed_stack_001BAPI_Init, __D0BAPI_Init
+5	513	53	#line 513 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	513	53	#line 513 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	514	53		set __signed_stack_001BAPI_Init, 1
+5	513	56	#line 513 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	516	56	#line 516 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	517	56		mov __D0BAPI_Init, __BAPI_Init_7qG2_goal_y_7qG2_000
+5	516	58	#line 516 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	517	58		replace gContext.goal_pos, gContext.goal_pos, __signed_stack_001BAPI_Init, __D0BAPI_Init
+5	516	63	#line 516 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	516	63	#line 516 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	517	63		set __SetSensorLight_7qG2_port_7qG2_000_inline_BAPI_Init, 1
+5	516	66	#line 516 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	519	66	#line 519 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	520	66		mov __SetSensorLight_7qG2_bActive_7qG2_000_inline_BAPI_Init, __constVal1
+5	3729	68	#line 3729 "NXCDefs.h"
+5	3730	68		mov __SetSensorType_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, __SetSensorLight_7qG2_port_7qG2_000_inline_BAPI_Init
+5	3729	70	#line 3729 "NXCDefs.h"
+5	3729	70	#line 3729 "NXCDefs.h"
+5	3730	70		mov __DU0SetSensorLight_inline_BAPI_Init, __SetSensorLight_7qG2_bActive_7qG2_000_inline_BAPI_Init
+5	3729	72	#line 3729 "NXCDefs.h"
+5	3730	72		tst 5, __zfSetSensorLight_inline_BAPI_Init, __DU0SetSensorLight_inline_BAPI_Init
+5	3729	75	#line 3729 "NXCDefs.h"
+5	3730	75		brtst 4, __001__NXC_Label_4, __zfSetSensorLight_inline_BAPI_Init
+5	3729	78	#line 3729 "NXCDefs.h"
+5	3730	78		set __D0SetSensorLight_inline_BAPI_Init, 5
+5	3729	81	#line 3729 "NXCDefs.h"
+5	3730	81		jmp __001__NXC_Label_5
+5	3729	83	#line 3729 "NXCDefs.h"
+5	3730	83		set __D0SetSensorLight_inline_BAPI_Init, 6
+5	3729	86	#line 3729 "NXCDefs.h"
+5	3730	86		mov __SetSensorType_7qG2_type_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, __D0SetSensorLight_inline_BAPI_Init
+5	3663	88	#line 3663 "NXCDefs.h"
+5	3664	88		setin __SetSensorType_7qG2_type_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, __SetSensorType_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, 0
+5	3663	92	#line 3663 "NXCDefs.h"
+5	3730	92	#line 3730 "NXCDefs.h"
+5	3730	92	#line 3730 "NXCDefs.h"
+5	3731	92		mov __SetSensorMode_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, __SetSensorLight_7qG2_port_7qG2_000_inline_BAPI_Init
+5	3730	94	#line 3730 "NXCDefs.h"
+5	3730	94	#line 3730 "NXCDefs.h"
+5	3731	94		set __SetSensorMode_7qG2_mode_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, 128
+5	3730	97	#line 3730 "NXCDefs.h"
+5	3676	97	#line 3676 "NXCDefs.h"
+5	3677	97		setin __SetSensorMode_7qG2_mode_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, __SetSensorMode_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, 1
+5	3676	101	#line 3676 "NXCDefs.h"
+5	3731	101	#line 3731 "NXCDefs.h"
+5	3731	101	#line 3731 "NXCDefs.h"
+5	3732	101		mov __ResetSensor_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init, __SetSensorLight_7qG2_port_7qG2_000_inline_BAPI_Init
+5	3731	103	#line 3731 "NXCDefs.h"
+5	3694	103	#line 3694 "NXCDefs.h"
+5	3695	103	#pragma macro 4
+5	3695	103		acquire __ResetSensorMutex
+5	3695	104		mov __ResetSensorPort, __ResetSensor_7qG2_port_7qG2_000_inline_SetSensorLight_inline_BAPI_Init
+5	3695	106		subcall __ResetSensorSubroutine, ____ResetSensorSubroutine_return
+5	3695	108		release __ResetSensorMutex
+5	4968	109	#line 4968 "NXCDefs.h"
+5	3694	109	#line 3694 "NXCDefs.h"
+5	3732	109	#line 3732 "NXCDefs.h"
+5	519	109	#line 519 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	521	109	#line 521 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	522	109		subcall __BAPI_Task_Sensor_Spawner, __BAPI_Task_Sensor_Spawner_return
+5	521	111	#line 521 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	522	111	#line 522 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	523	111		subret __BAPI_Init_return
+5	522	113	#line 522 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	545	113	#line 545 "C:\Users\David\Documents\GitHub\src\main.nxc"
+5	546	113		subret __BAPI_Init_return
+6	0	0		subret __BAPI_Task_Sensor_Spawner_return
+7	0	0		exit 0, 1
+8	614	0	#line 614 "C:\Users\David\Documents\GitHub\src\main.nxc"
+8	615	0		subret ____initialize_global_data_return
+#CLUMPS
+Clump	Name	Offset	File
+0	main	0	C:\Users\David\Documents\GitHub\src\main.nxc
+1	__ResetSensorSubroutine	40	NXTDefs.h
+2	BAPI_Status	53	C:\Users\David\Documents\GitHub\src\main.nxc
+3	BAPI_Turn	82	C:\Users\David\Documents\GitHub\src\main.nxc
+4	BAPI_Task_Sensor	264	C:\Users\David\Documents\GitHub\src\main.nxc
+5	BAPI_Init	308	C:\Users\David\Documents\GitHub\src\main.nxc
+6	__BAPI_Task_Sensor_Returner	423	C:\Users\David\Documents\GitHub\src\main.nxc
+7	__BAPI_Task_Sensor_Spawner	425	C:\Users\David\Documents\GitHub\src\main.nxc
+8	__initialize_global_data	428	C:\Users\David\Documents\GitHub\src\main.nxc
