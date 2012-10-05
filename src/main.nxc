@@ -25,6 +25,12 @@
 
 // command-line: nbc -S=usb -d main.nxc
 
+/* Directions */
+#define BAPI_DIR_Y_POS                  0
+#define BAPI_DIR_X_POS                  1
+#define BAPI_DIR_Y_NEG                  2
+#define BAPI_DIR_X_NEG                  3
+
 /* Map */
 #define BAPI_INIT_MAP_DIM_X             100
 #define BAPI_INIT_MAP_DIM_Y             100
@@ -32,13 +38,14 @@
 /* Robot */
 #define BAPI_INIT_START_X               0
 #define BAPI_INIT_START_Y               0
+#define BAPI_INIT_START_DIR             BAPI_DIR_Y_POS
 
 /* Goal */
 #define BAPI_INIT_GOAL_X                100
 #define BAPI_INIT_GOAL_Y                100
 
 /* Movement */
-#define BAPI_MOVE_SPEED                 50 // 100
+#define BAPI_MOVE_SPEED                 50
 #define BAPI_MOVE_TACH_PER_INCH         104
 
 /* Turning */
@@ -48,7 +55,7 @@
 
 /* Light Sensor */
 #define BAPI_SENSE_LIGHT_SENSOR         S2
-#define BAPI_SENSE_LIGHT_FIELD          38 // 38
+#define BAPI_SENSE_LIGHT_FIELD          38
 #define BAPI_SENSE_LIGHT_BALL           00 // TODO: get ball light value?
 
 /* Context - The current context of the system. */
@@ -58,6 +65,7 @@ struct GLOBAL_CONTEXT
     bool        sensor_detect;
     int         map_dim[2];
     int         current_pos[2];
+    int         current_dir;
     int         goal_pos[2];
 };
 
@@ -187,6 +195,44 @@ void BAPI_Move (int distance)
 
         /* Turn off motors. */
         Off(OUT_BC);
+
+        /* Update the robot's position */
+        switch(gContext.current_dir)
+        {
+            case BAPI_DIR_Y_POS:
+            {
+                gContext.current_pos[1]++;
+                break;
+            }
+
+            case BAPI_DIR_X_POS:
+            {
+                gContext.current_pos[0]++;
+                break;
+            }
+
+            case BAPI_DIR_Y_NEG:
+            {
+                gContext.current_pos[1]--;
+                break;
+            }
+
+            case BAPI_DIR_X_NEG:
+            {
+                gContext.current_pos[0]--;
+                break;
+            }
+
+            default:
+            {
+                /* ERROR: Unknown robot direction! */
+                BAPI_Error();
+
+                break;
+            }
+
+        }
+
     }
 
     return;
@@ -244,6 +290,27 @@ void BAPI_Turn (int rotation)
 
         /* Turn off motors. */
         Off(OUT_BC);
+
+        /* Update the robot's direction */
+        if (rotation < 0)
+        {
+            /* Robot turned left */
+            gContext.current_dir--;
+            if (gContext.current_dir < BAPI_DIR_Y_POS)
+            {
+                gContext.current_dir = BAPI_DIR_X_NEG;
+            }
+        }
+        else
+        {
+            /* Robot turned right */
+            gContext.current_dir++;
+            if (gContext.current_dir > BAPI_DIR_X_NEG)
+            {
+                gContext.current_dir = BAPI_DIR_Y_POS;
+            }
+        }
+
     }
 
     return;
@@ -335,7 +402,196 @@ void BAPI_Kick()
 *******************************************************************************/
 void BAPI_Move_To (int x, int y)
 {
-    // TODO: Add code...
+    int delta_x;
+    int delta_y;
+
+    /* Calculate horizontal and vertical change from current position. */
+    delta_x = (x - gContext.current_pos[0]);
+    delta_y = (y - gContext.current_pos[1]);
+
+    /* Move x delta distance */
+    switch(gContext.current_dir)
+    {
+        case BAPI_DIR_Y_POS:
+        {
+            if (x > 0)
+            {
+               BAPI_Turn(90);
+               BAPI_Move(delta_x);
+            }
+            else
+            {
+                if (x < 0)
+                {
+                    BAPI_Turn(-90);
+                    BAPI_Move(abs(delta_x));
+                }
+
+            }
+
+            break;
+        }
+
+        case BAPI_DIR_Y_NEG:
+        {
+            if (x > 0)
+            {
+               BAPI_Turn(-90);
+               BAPI_Move(delta_x);
+            }
+            else
+            {
+                if (x < 0)
+                {
+                    BAPI_Turn(90);
+                    BAPI_Move(abs(delta_x));
+                }
+
+            }
+
+            break;
+        }
+
+        case BAPI_DIR_X_POS:
+        {
+            if (x > 0)
+            {
+               BAPI_Move(delta_x);
+            }
+            else
+            {
+                if (x < 0)
+                {
+                    BAPI_Turn(180);
+                    BAPI_Move(abs(delta_x));
+                }
+
+            }
+
+            break;
+        }
+
+        case BAPI_DIR_X_NEG:
+        {
+            if (x > 0)
+            {
+               BAPI_Turn(180);
+               BAPI_Move(delta_x);
+            }
+            else
+            {
+                if (x < 0)
+                {
+                    BAPI_Move(abs(delta_x));
+                }
+
+            }
+
+            break;
+        }
+
+        default:
+        {
+            /* ERROR: Unknown robot direction! */
+            BAPI_Error();
+
+            break;
+        }
+
+    }
+
+    /* Move y delta distance */
+    switch(gContext.current_dir)
+    {
+        case BAPI_DIR_Y_POS:
+        {
+            if (y > 0)
+            {
+               BAPI_Move(delta_y);
+            }
+            else
+            {
+                if (y < 0)
+                {
+                    BAPI_Turn(180);
+                    BAPI_Move(abs(delta_y));
+                }
+
+            }
+
+            break;
+        }
+
+        case BAPI_DIR_Y_NEG:
+        {
+            if (y > 0)
+            {
+               BAPI_Turn(180);
+               BAPI_Move(delta_y);
+            }
+            else
+            {
+                if (y < 0)
+                {
+                    BAPI_Move(abs(delta_y));
+                }
+
+            }
+
+            break;
+        }
+
+        case BAPI_DIR_X_POS:
+        {
+            if (y > 0)
+            {
+                BAPI_Turn(-90);
+                BAPI_Move(delta_y);
+            }
+            else
+            {
+                if (y < 0)
+                {
+                    BAPI_Turn(90);
+                    BAPI_Move(abs(delta_y));
+                }
+
+            }
+
+            break;
+        }
+
+        case BAPI_DIR_X_NEG:
+        {
+            if (y > 0)
+            {
+               BAPI_Turn(90);
+               BAPI_Move(delta_y);
+            }
+            else
+            {
+                if (y < 0)
+                {
+                    BAPI_Turn(-90);
+                    BAPI_Move(abs(delta_y));
+                }
+
+            }
+
+            break;
+        }
+
+        default:
+        {
+            /* ERROR: Unknown robot direction! */
+            BAPI_Error();
+
+            break;
+        }
+
+    }
+
+    return;
 }
 
 /* Layer 2 Functions - These are the highest-level functions which are abstract
@@ -493,6 +749,8 @@ task BAPI_Task_Sensor ()
 *
 *      start_y - The y coordinate of the robot's starting position.
 *
+*      start_dir - The robot's starting direction.
+*
 *      goal_x - The x coordinate of the (center of the) goal.
 *
 *      goal_y - The y coordinate of the (center of teh) goal.
@@ -502,7 +760,7 @@ task BAPI_Task_Sensor ()
 *      None
 *
 *******************************************************************************/
-void BAPI_Init (int map_dim_x, int map_dim_y, int start_x, int start_y, int goal_x, int goal_y)
+void BAPI_Init (int map_dim_x, int map_dim_y, int start_x, int start_y, int start_dir, int goal_x, int goal_y)
 {
     /* Initialize the global context */
     gContext.sensor_detect = false;
@@ -510,6 +768,7 @@ void BAPI_Init (int map_dim_x, int map_dim_y, int start_x, int start_y, int goal
     gContext.map_dim[1] = map_dim_y;
     gContext.current_pos[0] = start_x;
     gContext.current_pos[1] = start_y;
+    gContext.current_dir = start_dir;
     gContext.goal_pos[0] = goal_x;
     gContext.goal_pos[1] = goal_y;
 
@@ -552,6 +811,7 @@ task main ()
               BAPI_INIT_MAP_DIM_Y,
               BAPI_INIT_START_X,
               BAPI_INIT_START_Y,
+              BAPI_INIT_START_DIR,
               BAPI_INIT_GOAL_X,
               BAPI_INIT_GOAL_Y);
 
@@ -596,6 +856,7 @@ task main ()
               BAPI_INIT_MAP_DIM_Y,
               BAPI_INIT_START_X,
               BAPI_INIT_START_Y,
+              BAPI_INIT_START_DIR,
               BAPI_INIT_GOAL_X,
               BAPI_INIT_GOAL_Y);
 
