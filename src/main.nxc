@@ -39,16 +39,16 @@
 
 /* Movement */
 #define BAPI_MOVE_SPEED                 50 // 100
-#define BAPI_MOVE_TACH_PER_INCH         100
+#define BAPI_MOVE_TACH_PER_INCH         104
 
 /* Turning */
 #define BAPI_TURN_SPEED                 50
-#define BAPI_TURN_RIGHT_DURATION        2150
-#define BAPI_TURN_LEFT_DURATION         2000
+#define BAPI_TURN_RIGHT_DURATION        2185
+#define BAPI_TURN_LEFT_DURATION         1982
 
 /* Light Sensor */
 #define BAPI_SENSE_LIGHT_SENSOR         S2
-#define BAPI_SENSE_LIGHT_FIELD          45 // 38
+#define BAPI_SENSE_LIGHT_FIELD          38 // 38
 #define BAPI_SENSE_LIGHT_BALL           00 // TODO: get ball light value?
 
 /* Context - The current context of the system. */
@@ -224,18 +224,18 @@ void BAPI_Turn (int rotation)
         /* Determine rotation direction */
         if (rotation < 0)
         {
-            /* Start motors to turn right. */
+            /* Start motors to turn left. */
             OnFwd(OUT_B, BAPI_TURN_SPEED);
             OnRev(OUT_C, BAPI_TURN_SPEED);
-            duration = BAPI_TURN_RIGHT_DURATION;
+            duration = BAPI_TURN_LEFT_DURATION;
 
         }
         else
         {
-            /* Start motor to turn left. */
+            /* Start motor to turn right. */
             OnFwd(OUT_C, BAPI_TURN_SPEED);
             OnRev(OUT_B, BAPI_TURN_SPEED);
-            duration = BAPI_TURN_LEFT_DURATION;
+            duration = BAPI_TURN_RIGHT_DURATION;
 
         }
 
@@ -555,7 +555,10 @@ task main ()
               BAPI_INIT_GOAL_X,
               BAPI_INIT_GOAL_Y);
 
-    BAPI_Move(10);
+    //BAPI_Move(10);
+    BAPI_Turn(90);
+    Wait(200);
+    BAPI_Turn(-90);
 
 #endif
 
