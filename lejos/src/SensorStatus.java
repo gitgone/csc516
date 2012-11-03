@@ -1,10 +1,6 @@
-import java.io.*;
-
 import lejos.nxt.LCD;
-import lejos.nxt.Motor;
-import lejos.robotics.RegulatedMotor;
 import lejos.util.Delay;
-import lejos.nxt.*;
+
 public class SensorStatus implements Runnable{
 	public void run(){
 		while(true){
@@ -40,6 +36,9 @@ public class SensorStatus implements Runnable{
 				LCD.clear(3);
 				PapaMain.rightTouched = false;
 			}
+			
+			// Delay to allow rest of system to run...
+			Delay.msDelay(10);
 		}
 	}
 }
