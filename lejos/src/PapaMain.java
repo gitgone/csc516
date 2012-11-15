@@ -26,9 +26,9 @@ public class PapaMain {
 	static int obstacleAvoidAngle = 45;
 	static int moveDelay10Inches = 1000;
 	static int intDivisionOffset = 100;
+	
 	//set true to connect on initialize
 	static boolean connect = true;
-	static int numOfConnections = 1;
 	
 	// Motor speed settings
 	static int highSpeed = 110;
@@ -41,44 +41,11 @@ public class PapaMain {
 	// Initialization...
 	
 	public static void initialize(boolean connect){
-		//if specified connect
-		if(connect){
-		try
-		{
-			BTConnection[] connection = new BTConnection[4]; 
-			for(int i = 0; i < numOfConnections; i++){		
-				connection[i] = Bluetooth.waitForConnection();
-				if (connection[i] == null) {
-					throw new IOException("Connect fail" + " " + i);
-				}
-				LCD.drawString("Connected" + " " + i, 1, 0);
-				
-			}
-			DataInputStream input = connection[0].openDataInputStream();
-			DataOutputStream output = connection[0].openDataOutputStream();
-			
-			int answer1 = input.readInt();
-			LCD.drawString("1st = " + answer1, 2, 0);
-			int answer2 = input.readInt();
-			LCD.drawString("2nd = " + answer2, 3, 0);
-			output.writeInt(0);
-			output.flush();
-			LCD.drawString("Sent data", 4, 0);
-			input.close();
-			output.close();
-			connection[0].close();
-			LCD.drawString("Bye ...", 5, 0);
-			}
-			catch(Exception ioe)
-			{
-				LCD.clear();
-				LCD.drawString("ERROR", 0, 0);
-				LCD.drawString(ioe.getMessage(), 2, 0);
-				LCD.refresh();
-			}
-
-		Delay.msDelay(4000);
-		LCD.clear();
+		
+		if (connect){
+			// Create and communications relay thread
+			Thread CommRelay = new Thread(new CommRelay());
+			CommRelay.start();		
 		}
 		
 		// Create and start sensor thread
