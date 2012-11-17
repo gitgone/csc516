@@ -11,7 +11,7 @@ import lejos.util.Delay;
 public class CommRelay implements Runnable{
 
 	// Communications settings
-	static int numOfConnections = 1;
+	static int numOfConnections = 3;
 	
 	// Main thread entry function
 	public void run(){
@@ -19,7 +19,7 @@ public class CommRelay implements Runnable{
 		// Initialize BlueTooth (BT) communications
 		try
 		{
-			BTConnection[] connection = new BTConnection[4]; 
+			BTConnection[] connection = new BTConnection[3]; 
 			for(int i = 0; i < numOfConnections; i++){		
 				connection[i] = Bluetooth.waitForConnection();
 				if (connection[i] == null) {
@@ -28,18 +28,24 @@ public class CommRelay implements Runnable{
 				LCD.drawString("Connected" + " " + i, 1, 0);
 				
 			}
-			DataInputStream input = connection[0].openDataInputStream();
-			DataOutputStream output = connection[0].openDataOutputStream();
+			DataInputStream[] input = new DataInputStream[3];
+			DataOutputStream[] output = new DataOutputStream[3];
 			
-			int answer1 = input.readInt();
+			for(int i = 0; i < 3; i++){
+				input[i] = connection[i].openDataInputStream();
+				output[i] = connection[i].openDataOutputStream();
+				
+			}
+			
+			int answer1 = input[0].readInt();
 			LCD.drawString("1st = " + answer1, 2, 0);
-			int answer2 = input.readInt();
+			int answer2 = input[0].readInt();
 			LCD.drawString("2nd = " + answer2, 3, 0);
-			output.writeInt(0);
-			output.flush();
+			output[0].writeInt(0);
+			output[0].flush();
 			LCD.drawString("Sent data", 4, 0);
-			input.close();
-			output.close();
+			input[0].close();
+			output[0].close();
 			connection[0].close();
 			LCD.drawString("Bye ...", 5, 0);
 		}

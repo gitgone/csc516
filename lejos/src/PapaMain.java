@@ -10,17 +10,17 @@ public class PapaMain {
 	static RegulatedMotor kick = Motor.A;
 	static RegulatedMotor left = Motor.B;
 	static RegulatedMotor right = Motor.C;
-	static LightSensor lightFront = new LightSensor(SensorPort.S2);
-	static LightSensor lightRear = new LightSensor(SensorPort.S4);
+	static LightSensor lightFront_left = new LightSensor(SensorPort.S2);
+	static LightSensor lightFront_right = new LightSensor(SensorPort.S4);
 	static TouchSensor leftTouch = new TouchSensor(SensorPort.S3);
 	static TouchSensor rightTouch = new TouchSensor(SensorPort.S1);
 	
 	//Global Values
-	static int kickValue = 75;
-	static int lightFrontValue;
-	static int lightRearValue;
-	static int lightFrontThreshold = 45;
-	static int lightRearThreshold = 75;
+	static int kickValue = 50;
+	static int lightLeftValue;
+	static int lightRightValue;
+	static int lightLeftThreshold = 43;
+	static int lightRightThreshold = 43;
 	static int turnDelay90Degrees = 650;
 	static int backupDelay = 500;
 	static int obstacleAvoidAngle = 45;
@@ -28,15 +28,15 @@ public class PapaMain {
 	static int intDivisionOffset = 100;
 	
 	//set true to connect on initialize
-	static boolean connect = true;
+	static boolean connect = false;
 	
 	// Motor speed settings
 	static int highSpeed = 110;
 	static int lowSpeed = 60;
 	static boolean leftTouched = false;
 	static boolean rightTouched = false;
-	static boolean lightFrontDetect = false;
-	static boolean lightRearDetect = false;
+	static boolean lightFrontLeftDetect = false;
+	static boolean lightFrontRightDetect = false;
 	
 	// Initialization...
 	
@@ -55,6 +55,10 @@ public class PapaMain {
 		// Create and start system monitor thread
 		Thread systemMonitor = new Thread(new SystemMonitor());
 		systemMonitor.start();
+		
+		// Create and start kick handler thread
+		Thread kickHandler = new Thread(new KickHandler());
+		kickHandler.start();
 		
 		// Initialize motors
 		kick.setSpeed((int)kick.getMaxSpeed());
@@ -144,7 +148,7 @@ public class PapaMain {
 	// High-level behaviors...
 	
 	public static void search_for_ball(){
-		while(lightFrontDetect == false) {
+		while(lightFrontLeftDetect == false && lightFrontRightDetect == false) {
 			if (leftTouched == true) {
 				move_stop();
 				move_backward(10);
@@ -156,12 +160,64 @@ public class PapaMain {
 				move_backward(10);
 				turn_left(obstacleAvoidAngle);
 			}
-			
 			move_forward();
-		}		
+		}
+		if(!lightFrontRightDetect) {
+			int temp = left.getSpeed();
+			left.setSpeed(temp/2);
+			Delay.msDelay(200);
+			left.setSpeed(temp);
+			
+			if (leftTouched == true) {
+				move_stop();
+				move_backward(10);
+				turn_right(obstacleAvoidAngle);
+			}
+			
+			if (rightTouched == true) {
+				move_stop();
+				move_backward(10);
+				turn_left(obstacleAvoidAngle);
+			}
+			move_forward();
+		}
+		if(!lightFrontLeftDetect){
+			int temp = right.getSpeed();
+			right.setSpeed(temp/2);
+			Delay.msDelay(200);
+			right.setSpeed(temp);
+			
+			if (leftTouched == true) {
+				move_stop();
+				move_backward(10);
+				turn_right(obstacleAvoidAngle);
+			}
+			
+			if (rightTouched == true) {
+				move_stop();
+				move_backward(10);
+				turn_left(obstacleAvoidAngle);
+			}
+			move_forward();
+		}
+		if(!lightFrontLeftDetect && !lightFrontRightDetect){
+			if (leftTouched == true) {
+				move_stop();
+				move_backward(10);
+				turn_right(obstacleAvoidAngle);
+			}
+			
+			if (rightTouched == true) {
+				move_stop();
+				move_backward(10);
+				turn_left(obstacleAvoidAngle);
+			}
+			move_forward();
+		}
 	}
 	
 	public static void kick_ball_at_goal(){
+		Delay.msDelay(200);
 		kick(kickValue);
 	}
 	
@@ -171,7 +227,6 @@ public class PapaMain {
 		initialize(connect);
 		while(true){
 			search_for_ball();
-			kick_ball_at_goal();
 		}
 	}
 	
