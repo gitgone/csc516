@@ -21,7 +21,8 @@ public class PapaMain {
 	static int lightRightValue;
 	static int lightLeftThreshold = 43;
 	static int lightRightThreshold = 43;
-	static int turnDelay90Degrees = 650;
+	//650
+	static int turnDelay90Degrees = 835;
 	static int backupDelay = 500;
 	static int obstacleAvoidAngle = 45;
 	static int moveDelay10Inches = 1000;
@@ -147,7 +148,8 @@ public class PapaMain {
 	
 	// High-level behaviors...
 	
-	public static void search_for_ball(){
+	public static void search_for_ball(int distance){
+		int counter = 0;
 		while(lightFrontLeftDetect == false && lightFrontRightDetect == false) {
 			if (leftTouched == true) {
 				move_stop();
@@ -160,7 +162,11 @@ public class PapaMain {
 				move_backward(10);
 				turn_left(obstacleAvoidAngle);
 			}
-			move_forward();
+			move_forward(1);
+			counter++;
+			if(counter == distance){
+				return;
+			}
 		}
 		if(!lightFrontRightDetect) {
 			int temp = left.getSpeed();
@@ -179,7 +185,11 @@ public class PapaMain {
 				move_backward(10);
 				turn_left(obstacleAvoidAngle);
 			}
-			move_forward();
+			move_forward(1);
+			counter++;
+			if(counter == distance){
+				return;
+			}
 		}
 		if(!lightFrontLeftDetect){
 			int temp = right.getSpeed();
@@ -198,7 +208,11 @@ public class PapaMain {
 				move_backward(10);
 				turn_left(obstacleAvoidAngle);
 			}
-			move_forward();
+			move_forward(1);
+			counter++;
+			if(counter == distance){
+				return;
+			}
 		}
 		if(!lightFrontLeftDetect && !lightFrontRightDetect){
 			if (leftTouched == true) {
@@ -212,7 +226,11 @@ public class PapaMain {
 				move_backward(10);
 				turn_left(obstacleAvoidAngle);
 			}
-			move_forward();
+			move_forward(1);
+			counter++;
+			if(counter == distance){
+				return;
+			}
 		}
 	}
 	
@@ -226,7 +244,22 @@ public class PapaMain {
 	public static void main(String[] args) throws Exception {
 		initialize(connect);
 		while(true){
-			search_for_ball();
+			search_for_ball(25);
+			Delay.msDelay(20);
+			turn_left(90);
+			Delay.msDelay(20);
+			search_for_ball(20);
+			Delay.msDelay(20);
+			turn_left(90);
+			Delay.msDelay(20);
+			search_for_ball(22);
+			Delay.msDelay(20);
+			turn_left(90);
+			Delay.msDelay(20);
+			search_for_ball(20);
+			Delay.msDelay(20);
+			turn_left(90);
+			Delay.msDelay(2000);
 		}
 	}
 	
